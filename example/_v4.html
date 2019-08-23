@@ -12,6 +12,8 @@
   <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
   <script src="../src/calendar-heatmap.js"></script>
   <script type="text/javascript">
+    moment.defaultFormat = "DD.MM.YYYY HH:mm";
+    moment.locale('de-CH');
     var now = moment().endOf('day').toDate();
     var yearAgo = moment().startOf('day').subtract(1, 'year').toDate();
     var chartData = d3.timeDays(yearAgo, now).map(function (dateElement) {
