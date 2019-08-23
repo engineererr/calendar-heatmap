@@ -2,7 +2,7 @@
 function calendarHeatmap() {
   // defaults
   var width = 750;
-  var height = 110;
+  var height = 150;
   var legendWidth = 150;
   var selector = 'body';
   var SQUARE_LENGTH = 11;
@@ -147,7 +147,7 @@ function calendarHeatmap() {
           return result * (SQUARE_LENGTH + SQUARE_PADDING);
         })
         .attr('y', function (d, i) {
-          return MONTH_LABEL_PADDING + formatWeekday(d.getDay()) * (SQUARE_LENGTH + SQUARE_PADDING);
+          return MONTH_LABEL_PADDING + formatWeekday(d.getDay()) * (SQUARE_LENGTH + SQUARE_PADDING) +10;
         });
 
       if (typeof onClick === 'function') {
@@ -221,7 +221,7 @@ function calendarHeatmap() {
 
             return Math.floor(matchIndex / 7) * (SQUARE_LENGTH + SQUARE_PADDING);
           })
-          .attr('y', 0);  // fix these to the top
+          .attr('y', 10);  // fix these to the top
 
       locale.days.forEach(function (day, index) {
         index = formatWeekday(index);

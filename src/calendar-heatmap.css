@@ -24,4 +24,6 @@ rect.day-cell:hover {
 }
 .calendar-heatmap {
   box-sizing: initial;
+  margin-top: 50px;
+  padding-top: 10px;
 }

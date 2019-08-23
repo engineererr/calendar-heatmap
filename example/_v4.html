@@ -21,6 +21,12 @@
       };
     });
 
+    var realChartData = [
+      {
+        date: moment().endOf('day').toDate(),
+        count: 10
+      }
+    ]
     var heatmap = calendarHeatmap()
       .data(chartData)
       .selector('.container')
