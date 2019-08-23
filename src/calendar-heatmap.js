@@ -188,19 +188,19 @@ function calendarHeatmap() {
             .attr('width', SQUARE_LENGTH)
             .attr('height', SQUARE_LENGTH)
             .attr('x', function (d, i) { return (width - legendWidth) + (i + 1) * 13; })
-            .attr('y', height + SQUARE_PADDING)
+            .attr('y', height + SQUARE_PADDING - 15)
             .attr('fill', function (d) { return d; });
 
         legendGroup.append('text')
           .attr('class', 'calendar-heatmap-legend-text calendar-heatmap-legend-text-less')
           .attr('x', width - legendWidth - 13)
-          .attr('y', height + SQUARE_LENGTH)
+          .attr('y', height + SQUARE_LENGTH  - 15)
           .text(locale.Less);
 
         legendGroup.append('text')
           .attr('class', 'calendar-heatmap-legend-text calendar-heatmap-legend-text-more')
           .attr('x', (width - legendWidth + SQUARE_PADDING) + (colorRange.length + 1) * 13)
-          .attr('y', height + SQUARE_LENGTH)
+          .attr('y', height + SQUARE_LENGTH  - 15)
           .text(locale.More);
       }
 
