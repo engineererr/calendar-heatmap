@@ -19,14 +19,27 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: SBBWeb Ultralight;
+  src: url('fonts/SBBWeb-Ultralight.eot');
+  src: url('fonts/SBBWeb-Ultralight.eot?') format('☺'),
+       url('fonts/SBBWeb-Ultralight.woff') format('woff'),
+       url('fonts/SBBWeb-Ultralight.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 body {
-  margin-left: 80px;
+  max-width: 1500px;
+  min-width: 1400px;
+  margin: auto; 
+  margin-top: 50px;
   font-family: SBBWeb Thin,Helvetica Neue,Helvetica,Arial,sans-serif;;
 }
 
 h1 {
-  line-height: 1.2;
+  font-size: 3.75em;
+  font-family: SBBWeb Ultralight
 }
 
 text.month-name,
@@ -55,6 +68,4 @@ rect.day-cell:hover {
 }
 .calendar-heatmap {
   box-sizing: initial;
-  margin-top: 50px;
-  padding-top: 10px;
 }
