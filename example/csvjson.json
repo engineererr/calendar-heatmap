@@ -1,33 +1,4 @@
-<html>
-
-<head>
-  <meta charset="utf-8">
-  <title>SBB Delay Heatmap</title>
-  <link rel="stylesheet" type="text/css" href="../src/calendar-heatmap.css">
-</head>
-
-<body>
-  <h1>SBB</h1>
-  <div class="container"></div>
-  <p>Hier ist die Erklärung.</p>
-  <img src="thumbnail.png" width="500px" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js" charset="utf-8"></script>
-  <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
-  <script src="../src/calendar-heatmap.js"></script>
-  <script type="text/javascript">
-    moment.defaultFormat = "DD.MM.YYYY HH:mm";
-    moment.locale('de-CH');
-    var now = moment().endOf('day').toDate();
-    var yearAgo = moment().startOf('day').subtract(1, 'year').toDate();
-    var chartData = d3.timeDays(yearAgo, now).map(function (dateElement) {
-      return {
-        date: dateElement,
-        count: (dateElement.getDay() !== 0 && dateElement.getDay() !== 6) ? Math.floor(Math.random() * 60) : Math.floor(Math.random() * 10)
-      };
-    });
-
-    var realChartData = JSON.parse(`
-    [
+[
   {
     "": 1,
     "BETRIEBSTAG": "2018-01-31",
@@ -4760,22 +4731,4 @@
     "verspaetung": 58,
     "mittelwert": "NA"
   }
-]`);
-
-    var normalizedData = realChartData.map((input) =>{
-      return { "date": input.BETRIEBSTAG, "count": input.verspaetung }
-    });
-    
-    var heatmap = calendarHeatmap()
-      .data(normalizedData)
-      .selector('.container')
-      .tooltipEnabled(true)
-      .colorRange(['#f4f7f7', '#79a8a9'])
-      .onClick(function (data) {
-        console.log('data', data);
-      });
-    heatmap();  // render the chart
-  </script>
-</body>
-
-</html>
+]

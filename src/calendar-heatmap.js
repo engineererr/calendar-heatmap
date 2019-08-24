@@ -3,30 +3,30 @@ function calendarHeatmap() {
   // defaults
   var width = 750;
   var height = 150;
-  var legendWidth = 150;
+  var legendWidth = 185;
   var selector = 'body';
   var SQUARE_LENGTH = 11;
   var SQUARE_PADDING = 2;
   var MONTH_LABEL_PADDING = 6;
-  var now = moment().endOf('day').toDate();
-  var yearAgo = moment().startOf('day').subtract(1, 'year').toDate();
+  var now = moment('2019-01.31').startOf('day').toDate();
+  var yearAgo = moment('2019-01-01').startOf('day').subtract(1, 'year').toDate();
   var startDate = null;
   var counterMap= {};
   var data = [];
   var max = null;
-  var colorRange = ['#D8E6E7', '#218380'];
+  var colorRange = ['#445354', '#218380'];
   var tooltipEnabled = true;
-  var tooltipUnit = 'contribution';
+  var tooltipUnit = 'Sekunde';
   var legendEnabled = true;
   var onClick = null;
   var weekStart = 0; //0 for Sunday, 1 for Monday
   var locale = {
     months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    days: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-    No: 'No',
-    on: 'on',
-    Less: 'Less',
-    More: 'More'
+    days: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+    No: 'Keine',
+    on: 'am',
+    Less: 'Püntklich',
+    More: 'Unpünktlich'
   };
   var v = Number(d3.version.split('.')[0]);
 
@@ -144,7 +144,7 @@ function calendarHeatmap() {
         .attr('x', function (d, i) {
           var cellDate = moment(d);
           var result = cellDate.week() - firstDate.week() + (firstDate.weeksInYear() * (cellDate.weekYear() - firstDate.weekYear()));
-          return result * (SQUARE_LENGTH + SQUARE_PADDING);
+          return result * (SQUARE_LENGTH + SQUARE_PADDING) + 20;
         })
         .attr('y', function (d, i) {
           return MONTH_LABEL_PADDING + formatWeekday(d.getDay()) * (SQUARE_LENGTH + SQUARE_PADDING) +10;
@@ -193,7 +193,7 @@ function calendarHeatmap() {
 
         legendGroup.append('text')
           .attr('class', 'calendar-heatmap-legend-text calendar-heatmap-legend-text-less')
-          .attr('x', width - legendWidth - 13)
+          .attr('x', width - legendWidth - 35)
           .attr('y', height + SQUARE_LENGTH  - 15)
           .text(locale.Less);
 
@@ -219,26 +219,24 @@ function calendarHeatmap() {
               return moment(d).isSame(element, 'month') && moment(d).isSame(element, 'year');
             });
 
-            return Math.floor(matchIndex / 7) * (SQUARE_LENGTH + SQUARE_PADDING);
+            return Math.floor(matchIndex / 7) * (SQUARE_LENGTH + SQUARE_PADDING) + 35;
           })
           .attr('y', 10);  // fix these to the top
 
       locale.days.forEach(function (day, index) {
         index = formatWeekday(index);
-        if (index % 2) {
-          svg.append('text')
-            .attr('class', 'day-initial')
-            .attr('transform', 'translate(-8,' + (SQUARE_LENGTH + SQUARE_PADDING) * (index + 1) + ')')
-            .style('text-anchor', 'middle')
-            .attr('dy', '2')
-            .text(day);
-        }
+        svg.append('text')
+          .attr('class', 'day-initial')
+          .attr('transform', 'translate(10,' + ((SQUARE_LENGTH + SQUARE_PADDING) * (index + 1) + 10 )+ ')')
+          .style('text-anchor', 'middle')
+          .attr('dy', '2')
+          .text(day);
       });
     }
 
     function pluralizedTooltipUnit (count) {
       if ('string' === typeof tooltipUnit) {
-        return (tooltipUnit + (count === 1 ? '' : 's'));
+        return (tooltipUnit + (count === 1 ? '' : 'n'));
       }
       for (var i in tooltipUnit) {
         var _rule = tooltipUnit[i];
@@ -252,13 +250,20 @@ function calendarHeatmap() {
     }
 
     function tooltipHTMLForDate(d) {
-      var dateStr = moment(d).format('ddd, MMM Do YYYY');
+      var dateStr = moment(d).format('DD.MM.YYYY');
       var count = countForDate(d);
-      return '<span><strong>' + (count ? count : locale.No) + ' ' + pluralizedTooltipUnit(count) + '</strong> ' + locale.on + ' ' + dateStr + '</span>';
+      if(moment(d).day() == 6 || moment(d).day() == 0){
+        return '<span><strong>Am Wochenende (' + dateStr + ') blieb Jakob zu Hause.</strong> ' + '</span>';
+      }else{
+        return '<span><strong>' + (count ? count : locale.No) + ' ' + pluralizedTooltipUnit(count) + ' Verspätung ' + '</strong> ' + locale.on + ' ' + dateStr + '</span>';
+      }
     }
 
     function countForDate(d) {
         var key= moment(d).format( 'YYYY-MM-DD' );
+        if(moment(key).day() == 6 || moment(key).day() == 0){
+          return 'NA';
+        }
         return counterMap[key] || 0;
     }
 

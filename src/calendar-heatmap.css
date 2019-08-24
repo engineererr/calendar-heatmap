@@ -1,9 +1,40 @@
+/* definition */
+@font-face {
+  font-family: SBBWeb;
+  src: url('fonts/SBBWeb-Roman.eot');
+  src: url('fonts/SBBWeb-Roman.eot?') format('☺'),
+       url('fonts/SBBWeb-Roman.woff') format('woff'),
+       url('fonts/SBBWeb-Roman.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: SBBWeb Thin;
+  src: url('fonts/SBBWeb-Thin.eot');
+  src: url('fonts/SBBWeb-Thin.eot?') format('☺'),
+       url('fonts/SBBWeb-Thin.woff') format('woff'),
+       url('fonts/SBBWeb-Thin.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+body {
+  margin-left: 80px;
+  font-family: SBBWeb Thin,Helvetica Neue,Helvetica,Arial,sans-serif;;
+}
+
+h1 {
+  line-height: 1.2;
+}
+
 text.month-name,
 text.calendar-heatmap-legend-text,
 text.day-initial {
   font-size: 10px;
   fill: inherit;
-  font-family: Helvetica, arial, 'Open Sans', sans-serif;
+  font-family: SBBWeb;
 }
 rect.day-cell:hover {
   stroke: #555555;
@@ -20,7 +51,7 @@ rect.day-cell:hover {
   text-align: center;
 }
 .day-cell-tooltip > span {
-  font-family: Helvetica, arial, 'Open Sans', sans-serif
+  font-family: SBBWeb;
 }
 .calendar-heatmap {
   box-sizing: initial;
