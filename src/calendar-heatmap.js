@@ -1,31 +1,33 @@
 
 function calendarHeatmap() {
   // defaults
-  var width = 750;
-  var height = 150;
-  var legendWidth = 185;
+  var width = 1500;
+  var height = 300;
+  var legendWidth = 300;
   var selector = 'body';
-  var SQUARE_LENGTH = 11;
+  var SQUARE_LENGTH = 22;
   var SQUARE_PADDING = 2;
   var MONTH_LABEL_PADDING = 6;
+  var LEGEND_X_OFFSET = 90;
+  var LEGEND_Y_OFFSET = 50;
   var now = moment('2019-01.31').startOf('day').toDate();
   var yearAgo = moment('2019-01-01').startOf('day').subtract(1, 'year').toDate();
   var startDate = null;
   var counterMap= {};
   var data = [];
   var max = null;
-  var colorRange = ['#445354', '#218380'];
+  var colorRange = ['#445354', '#FF0040'];
   var tooltipEnabled = true;
   var tooltipUnit = 'Sekunde';
   var legendEnabled = true;
   var onClick = null;
   var weekStart = 0; //0 for Sunday, 1 for Monday
   var locale = {
-    months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    months: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
     days: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
     No: 'Keine',
     on: 'am',
-    Less: 'Püntklich',
+    Less: 'Pünktlich',
     More: 'Unpünktlich'
   };
   var v = Number(d3.version.split('.')[0]);
@@ -144,7 +146,7 @@ function calendarHeatmap() {
         .attr('x', function (d, i) {
           var cellDate = moment(d);
           var result = cellDate.week() - firstDate.week() + (firstDate.weeksInYear() * (cellDate.weekYear() - firstDate.weekYear()));
-          return result * (SQUARE_LENGTH + SQUARE_PADDING) + 20;
+          return result * (SQUARE_LENGTH + SQUARE_PADDING) + 30;
         })
         .attr('y', function (d, i) {
           return MONTH_LABEL_PADDING + formatWeekday(d.getDay()) * (SQUARE_LENGTH + SQUARE_PADDING) +10;
@@ -187,20 +189,20 @@ function calendarHeatmap() {
             .attr('class', 'calendar-heatmap-legend')
             .attr('width', SQUARE_LENGTH)
             .attr('height', SQUARE_LENGTH)
-            .attr('x', function (d, i) { return (width - legendWidth) + (i + 1) * 13; })
-            .attr('y', height + SQUARE_PADDING - 15)
+            .attr('x', function (d, i) { return (width - legendWidth) + (i + 1) * (SQUARE_LENGTH + SQUARE_PADDING) - LEGEND_X_OFFSET; })
+            .attr('y', height + SQUARE_PADDING - LEGEND_Y_OFFSET)
             .attr('fill', function (d) { return d; });
 
         legendGroup.append('text')
           .attr('class', 'calendar-heatmap-legend-text calendar-heatmap-legend-text-less')
-          .attr('x', width - legendWidth - 35)
-          .attr('y', height + SQUARE_LENGTH  - 15)
+          .attr('x', width - legendWidth - (SQUARE_LENGTH + SQUARE_PADDING) - LEGEND_X_OFFSET - 22)
+          .attr('y', height + SQUARE_LENGTH  - LEGEND_Y_OFFSET)
           .text(locale.Less);
 
         legendGroup.append('text')
           .attr('class', 'calendar-heatmap-legend-text calendar-heatmap-legend-text-more')
-          .attr('x', (width - legendWidth + SQUARE_PADDING) + (colorRange.length + 1) * 13)
-          .attr('y', height + SQUARE_LENGTH  - 15)
+          .attr('x', (width - legendWidth + SQUARE_PADDING) + (colorRange.length + 1) * (SQUARE_LENGTH + SQUARE_PADDING) - LEGEND_X_OFFSET)
+          .attr('y', height + SQUARE_LENGTH  - LEGEND_Y_OFFSET)
           .text(locale.More);
       }
 
@@ -219,7 +221,7 @@ function calendarHeatmap() {
               return moment(d).isSame(element, 'month') && moment(d).isSame(element, 'year');
             });
 
-            return Math.floor(matchIndex / 7) * (SQUARE_LENGTH + SQUARE_PADDING) + 35;
+            return Math.floor(matchIndex / 7) * (SQUARE_LENGTH + SQUARE_PADDING) + 54;
           })
           .attr('y', 10);  // fix these to the top
 

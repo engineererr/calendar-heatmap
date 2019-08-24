@@ -32,7 +32,7 @@ h1 {
 text.month-name,
 text.calendar-heatmap-legend-text,
 text.day-initial {
-  font-size: 10px;
+  font-size: 15px;
   fill: inherit;
   font-family: SBBWeb;
 }
